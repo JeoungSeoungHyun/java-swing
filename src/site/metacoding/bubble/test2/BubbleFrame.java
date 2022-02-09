@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적 : 플레이어 좌우이동 / 필요 : 1.키보드 액션 인식 위한 리스너 2.캐릭터 클래스 좌우이동 메서드
+ * @author 정성현 / 목적 : 플레이어 좌우이동 개선(키를 누르는동안 메서드는 한번 실행되도록 하고 키에서 떼면 정지) / 필요 :
+ *         right,left메서드 작동 확인 변수
  *
  */
 public class BubbleFrame extends JFrame {
@@ -28,12 +29,15 @@ public class BubbleFrame extends JFrame {
 
 	// 오브젝트 생성 메서드
 	private void initObject() {
+
+		// 배경화면 레이블 생성
 		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
 
+		// 플레이어 생성
 		player = new Player();
 	}
 
-	// 세팅 메서드
+	// 프레임 세팅 메서드
 	private void initSetting() {
 
 		// 프레임 사이즈 설정
@@ -42,10 +46,10 @@ public class BubbleFrame extends JFrame {
 		// 프레임 중앙 위치
 		setLocationRelativeTo(null);
 
-		// 프레임의 패널 레이아웃 null 설정
+		// 프레임의 패널 레이아웃 null 세팅
 		getContentPane().setLayout(null);
 
-		// x키 클릭시 JVM 종료
+		// 프레임 종료시 JVM 종료
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
@@ -74,19 +78,27 @@ public class BubbleFrame extends JFrame {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					player.setLeft(false);
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					player.setRight(false);
+				}
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					player.left();
+					if (!player.isLeft()) {
+						player.left();
+					}
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					player.right();
+					if (!player.isRight()) {
+						player.right();
+					}
 				}
 
 			}
+
 		});
 	}
 
