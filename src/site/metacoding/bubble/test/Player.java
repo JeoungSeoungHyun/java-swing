@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적: 벽에 막히기 /필요 : if문
+ * @author 정성현 / 목적: 점프 /필요: 1.점프 메서드 2.점프 메서드 동작 확인 위한 상태 3. 점프 스피드 상태
  *
  */
 public class Player extends JLabel {
@@ -18,11 +18,15 @@ public class Player extends JLabel {
 	private ImageIcon playerL;
 
 	// 플레이어 이동속력
-	private static final int SPEED = 5;
+	private static final int SPEED = 4;
+
+	// 플레이어 점프속력
+	private static final int JUMPSPEED = 2;
 
 	// 메서드의 동작상태
 	private boolean isRight;
 	private boolean isLeft;
+	private boolean isJump;
 
 	public boolean isRight() {
 		return isRight;
@@ -38,6 +42,14 @@ public class Player extends JLabel {
 
 	public void setLeft(boolean isLeft) {
 		this.isLeft = isLeft;
+	}
+
+	public boolean isJump() {
+		return isJump;
+	}
+
+	public void setJump(boolean isJump) {
+		this.isJump = isJump;
 	}
 
 	// 플레이어 생성자를 통해 생성
@@ -64,8 +76,10 @@ public class Player extends JLabel {
 
 		isRight = false;
 		isLeft = false;
+		isJump = false;
 	}
 
+	// 플레이어 오른쪽 이동 메서드
 	public void right() {
 		new Thread(() -> {
 
@@ -85,6 +99,7 @@ public class Player extends JLabel {
 		}).start();
 	}
 
+	// 플레이어 왼쪽 이동 메서드
 	public void left() {
 		new Thread(() -> {
 			isLeft = true;
@@ -101,6 +116,34 @@ public class Player extends JLabel {
 					setLocation(x, y);
 				}
 			}
+		}).start();
+	}
+
+	// 플레이어 점프 메서드
+	public void jump() {
+		new Thread(() -> {
+			isJump = true;
+
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				y = y - JUMPSPEED;
+				setLocation(x, y);
+				try {
+					Thread.sleep(5);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				y = y + JUMPSPEED;
+				setLocation(x, y);
+				try {
+					Thread.sleep(3);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			isJump = false;
 		}).start();
 	}
 }

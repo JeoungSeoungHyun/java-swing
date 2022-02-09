@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 플레이어 좌우 이동 개선2 //문제 : 벽을 뚫는다.
+ * @author 정성현 목적 : 점프
  *
  */
 public class BubbleFrame extends JFrame {
@@ -90,9 +90,14 @@ public class BubbleFrame extends JFrame {
 					if (!player.isRight()) {
 						player.right();
 					}
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					if (!player.isJump()) {
+						player.jump();
+					}
 				}
 			}
 		});
+
 	}
 
 	public static void main(String[] args) {
