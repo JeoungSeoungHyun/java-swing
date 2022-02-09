@@ -6,12 +6,13 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적 : 프레임에 배경화면 넣기
+ * @author 정성현 / 목적 : 플레이어 추가 / 필요 : 플레이어 클래스
  *
  */
 public class BubbleFrame extends JFrame {
 
 	private JLabel backgroundMap;
+	private Player player;
 
 	// 생성자를 통해 프레임 생성 및 설정
 	public BubbleFrame() {
@@ -24,10 +25,13 @@ public class BubbleFrame extends JFrame {
 	// 오브젝트 생성 메서드
 	private void initObject() {
 		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
+
+		player = new Player();
 	}
 
 	// 세팅 메서드
 	private void initSetting() {
+
 		// 프레임 사이즈 설정
 		setSize(1000, 640);
 
@@ -42,9 +46,15 @@ public class BubbleFrame extends JFrame {
 
 	}
 
-	// 오브젝트 추가 메서드
+	// 오브젝트 붙이기 메서드
 	private void addObject() {
+
+		// 배경화면 추가
 		setContentPane(backgroundMap);
+
+		// 플레이어 추가
+		add(player);
+
 	}
 
 	public static void main(String[] args) {
