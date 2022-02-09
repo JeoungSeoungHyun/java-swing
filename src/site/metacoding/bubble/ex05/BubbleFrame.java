@@ -20,6 +20,7 @@ public class BubbleFrame extends JFrame {
 
 	public BubbleFrame() {
 		initObject();
+		Gravity();
 		initSetting();
 		initListener();
 		setVisible(true); // 내부에 paintComponent() 호출 코드가 있다. 타겟을 정하지 않으면 프레임을 다시 그린다.
@@ -85,6 +86,31 @@ public class BubbleFrame extends JFrame {
 			}
 
 		});
+	}
+
+	public void Gravity() {
+		new Thread(() -> {
+			while (true) {
+				try {
+					if (player.getX() >= 120 && player.getX() <= 170 || player.getX() >= 770 && player.getX() <= 820) {
+						if (player.getY() <= 535) {
+							if (!player.isJump()) {
+//								System.out.println(isDown);
+								while (player.getY() != 535) {
+									player.setDown(true);
+									player.down();
+								}
+							}
+						}
+					}
+//					System.out.println("중력스레드 실행중");
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
 	}
 
 	public static void main(String[] args) {

@@ -15,6 +15,12 @@ public class Player extends JLabel {
 	private ImageIcon playerR;
 	private ImageIcon playerL;
 
+	private boolean isRight;
+	private boolean isLeft;
+	private boolean isJump;
+	private boolean isUp;
+	private boolean isDown;
+
 	public boolean isRight() {
 		return isRight;
 	}
@@ -39,11 +45,13 @@ public class Player extends JLabel {
 		this.isJump = isJump;
 	}
 
-	private boolean isRight;
-	private boolean isLeft;
-	private boolean isJump;
-	private boolean isUp;
-	private boolean isDown;
+	public boolean isDown() {
+		return isDown;
+	}
+
+	public void setDown(boolean isDown) {
+		this.isDown = isDown;
+	}
 
 	public Player() {
 		initObject();
@@ -57,8 +65,8 @@ public class Player extends JLabel {
 	}
 
 	private void initSetting() {
-		x = 820;
-		y = 535;
+		x = 190;
+		y = 415;
 		setIcon(playerR);
 		setSize(50, 50); // 위치도 필요함
 		setLocation(x, y); // paintComponent 호출
@@ -111,41 +119,38 @@ public class Player extends JLabel {
 	}
 
 	public void up() {
-		new Thread(() -> {
-			while (isUp) {
-				for (int j = 0; j < 15; j++) {
-					y = y - 10;
-					setLocation(x, y);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+		while (isUp) {
+			for (int j = 0; j < 15; j++) {
+				y = y - 10;
+				setLocation(x, y);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-				isUp = false;
-				isDown = true;
 			}
-		}).start();
+			isUp = false;
+		}
 	}
 
 	public void down() {
-		new Thread(() -> {
-
-			while (isDown) {
-				for (int i = 0; i < 15; i++) {
+		while (isDown) {
+			for (int i = 0; i < 15; i++) {
+				if (y < 535) {
 					y = y + 10;
 					setLocation(x, y);
 //		System.out.println(y);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+				} else {
+					break;
 				}
-				isDown = false;
-				isJump = false;
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		}).start();
+			isDown = false;
+		}
 	}
 
 	public void Jump() {
@@ -153,10 +158,10 @@ public class Player extends JLabel {
 		new Thread(() -> {
 			isJump = true;
 			isUp = true;
-			if (isUp) {
-				up();
-			}
-			System.out.println(y);
+			up();
+			isDown = true;
+			down();
+			isJump = false;
 
 		}).start();
 
