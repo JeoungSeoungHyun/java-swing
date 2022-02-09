@@ -1,26 +1,28 @@
-package site.metacoding.test;
+package site.metacoding.bubble.test;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import site.metacoding.bubble.ex02.Player;
-
 /**
  * 
- * @author 정성현 목적 : 플레이어 생성
+ * @author 정성현 목적 : 플레이어 좌우 이동 / 필요 : 키보드 액션 인식 위한 리스너
  *
  */
 public class BubbleFrame extends JFrame {
 
 	private JLabel backgroundMap;
-	private JLabel player;
+	private Player player;
 
 	// 1. 생성자를 통해 프레임을 생성한다.
 	public BubbleFrame() {
 		initSetting();
 		initObject();
 		addObject();
+		initListener();
 		setVisible(true);
 	}
 
@@ -31,6 +33,7 @@ public class BubbleFrame extends JFrame {
 
 		// 플레이어 생성
 		player = new Player();
+
 	}
 
 	// 프레임세팅 메서드
@@ -54,6 +57,34 @@ public class BubbleFrame extends JFrame {
 
 		// 플레이어 추가
 		add(player);
+	}
+
+	private void initListener() {
+		// 키보드 액션에 대한 리스너 추가 (인터페이스가 3개이므로 람다식 사용 불가. 익명클래스 사용)
+		// 키 이벤트에 대한 키코드가 필요 (왼쪽 - 37 / 위쪽 - 38 / 오른쪽 - 39 / 아래쪽 - 40)
+		addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					player.left();
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					player.right();
+				}
+			}
+		});
 	}
 
 	public static void main(String[] args) {

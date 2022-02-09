@@ -1,13 +1,21 @@
-package site.metacoding.test;
+package site.metacoding.bubble.test;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+/**
+ * 
+ * @author 정성현 / 목적: 좌우 이동 / 필요: 1.캐릭터 이동 위한 상태 speed 2. right /left 메서드 3. 왼쪽
+ *         보는 이미지 아이콘
+ *
+ */
 public class Player extends JLabel {
 	// 플레이어 생성자를 통해 생성
 	private int x;
 	private int y;
 	private ImageIcon playerR;
+	private ImageIcon playerL;
+	private static final int SPEED = 5;
 
 	public Player() {
 		initObject();
@@ -15,8 +23,9 @@ public class Player extends JLabel {
 	}
 
 	private void initObject() {
-		// 오른쪽 바라보는 이미지아이콘 생성
+		// 이미지아이콘 생성
 		playerR = new ImageIcon("image/playerR.png");
+		playerL = new ImageIcon("image/playerL.png");
 	}
 
 	private void initSetting() {
@@ -27,6 +36,18 @@ public class Player extends JLabel {
 		// setIcon과 setSize로 원하는 이미지아이콘 설정 후 setLocation으로 다시 그려주기
 		setIcon(playerR);
 		setSize(50, 50);
+		setLocation(x, y);
+	}
+
+	public void right() {
+		x = x + SPEED;
+		setIcon(playerR);
+		setLocation(x, y);
+	}
+
+	public void left() {
+		x = x - SPEED;
+		setIcon(playerL);
 		setLocation(x, y);
 	}
 
