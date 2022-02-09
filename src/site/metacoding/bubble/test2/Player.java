@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 필요: 1.right, left 메서드 작동 확인 변수 2.이벤트 처리 위한 스레드(메서드마다 각자)
+ * @author 정성현 / 필요: 1.벽의 좌표값 2.조건문
  */
 public class Player extends JLabel {
 
@@ -76,13 +76,15 @@ public class Player extends JLabel {
 		new Thread(() -> {
 			isRight = true;
 			while (isRight) {
-				x = x + SPEED;
-				setLocation(x, y);
-				setIcon(playerR);
-				try {
-					Thread.sleep(10);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (x <= 870) {
+					x = x + SPEED;
+					setLocation(x, y);
+					setIcon(playerR);
+					try {
+						Thread.sleep(10);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}).start();
@@ -90,8 +92,20 @@ public class Player extends JLabel {
 
 	// 왼쪽 이동 메서드
 	public void left() {
-		x = x - SPEED;
-		setLocation(x, y);
-		setIcon(playerL);
+		new Thread(() -> {
+			isLeft = true;
+			while (isLeft) {
+				if (x >= 80) {
+					x = x - SPEED;
+					setLocation(x, y);
+					setIcon(playerL);
+					try {
+						Thread.sleep(10);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 }

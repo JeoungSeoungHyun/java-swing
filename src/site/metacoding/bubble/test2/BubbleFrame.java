@@ -9,8 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적 : 플레이어 좌우이동 개선(키를 누르는동안 메서드는 한번 실행되도록 하고 키에서 떼면 정지) / 필요 :
- *         right,left메서드 작동 확인 변수
+ * @author 정성현 / 목적 : 플레이어 이동 개선2(벽에 부딪히도록) / 필요 : 벽의 좌표값x
  *
  */
 public class BubbleFrame extends JFrame {
