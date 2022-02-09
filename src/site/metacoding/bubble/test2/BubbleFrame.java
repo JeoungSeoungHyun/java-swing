@@ -1,12 +1,15 @@
 package site.metacoding.bubble.test2;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적 : 플레이어 추가 / 필요 : 플레이어 클래스
+ * @author 정성현 / 목적 : 플레이어 좌우이동 / 필요 : 1.키보드 액션 인식 위한 리스너 2.캐릭터 클래스 좌우이동 메서드
  *
  */
 public class BubbleFrame extends JFrame {
@@ -19,6 +22,7 @@ public class BubbleFrame extends JFrame {
 		initObject();
 		initSetting();
 		addObject();
+		initListener();
 		setVisible(true);
 	}
 
@@ -55,6 +59,35 @@ public class BubbleFrame extends JFrame {
 		// 플레이어 추가
 		add(player);
 
+	}
+
+	// 키보드 액션 인식 위한 리스너 (인터페이스가 3개이므로 람다식 불가능. 익명클래스 사용)
+	// 키 이벤트를 처리하기 위한 키코드 필요
+	private void initListener() {
+		addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					player.left();
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					player.right();
+				}
+
+			}
+		});
 	}
 
 	public static void main(String[] args) {
