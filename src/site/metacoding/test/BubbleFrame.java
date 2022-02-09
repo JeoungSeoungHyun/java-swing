@@ -1,13 +1,17 @@
 package site.metacoding.test;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 기본 프레임 추가
+ * @author 정성현 목적 : 프레임에 배경화면 추가
  *
  */
 public class BubbleFrame extends JFrame {
+
+	private JLabel backgroundMap;
 
 	// 1. 생성자를 통해 프레임을 생성한다.
 	public BubbleFrame() {
@@ -18,7 +22,8 @@ public class BubbleFrame extends JFrame {
 
 	// 오브젝트 생성 메서드
 	private void initObject() {
-
+		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
+		setContentPane(backgroundMap);
 	}
 
 	// 프레임세팅 메서드
