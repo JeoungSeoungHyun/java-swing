@@ -9,8 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 플레이어 좌우 이동 개선 //문제 :키를 누르는 동안 메서드가 계속 호출된다. ->키를 누르는 동안 메서드는
- *         한번 호출되고 손을 떼면 메서드가 중단된다. // 필요:메서드가 실행중인 것을 알 수 있는 상태
+ * @author 정성현 목적 : 플레이어 좌우 이동 개선2 //문제 : 벽을 뚫는다.
  *
  */
 public class BubbleFrame extends JFrame {

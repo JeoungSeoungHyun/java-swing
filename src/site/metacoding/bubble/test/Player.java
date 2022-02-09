@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적: 좌우 이동 /필요 : 새로운 스레드
+ * @author 정성현 / 목적: 벽에 막히기 /필요 : if문
  *
  */
 public class Player extends JLabel {
@@ -71,14 +71,16 @@ public class Player extends JLabel {
 
 			isRight = true;
 			while (isRight) {
-				x = x + SPEED;
-				setIcon(playerR);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if (x <= 870) {
+					x = x + SPEED;
+					setIcon(playerR);
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					setLocation(x, y);
 				}
-				setLocation(x, y);
 			}
 		}).start();
 	}
@@ -88,14 +90,16 @@ public class Player extends JLabel {
 			isLeft = true;
 
 			while (isLeft) {
-				x = x - SPEED;
-				setIcon(playerL);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if (x >= 80) {
+					x = x - SPEED;
+					setIcon(playerL);
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					setLocation(x, y);
 				}
-				setLocation(x, y);
 			}
 		}).start();
 	}
