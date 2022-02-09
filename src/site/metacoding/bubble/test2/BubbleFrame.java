@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적 : 플레이어 이동 개선2(벽에 부딪히도록) / 필요 : 벽의 좌표값x
+ * @author 정성현 / 목적 : 점프 구현 / 필요 : 1. 점프 메서드 2. 점프 메서드 동작 확인 변수
  *
  */
 public class BubbleFrame extends JFrame {
@@ -93,6 +93,10 @@ public class BubbleFrame extends JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					if (!player.isRight()) {
 						player.right();
+					}
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					if (!player.isJump()) {
+						player.jump();
 					}
 				}
 
