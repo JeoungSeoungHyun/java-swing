@@ -1,11 +1,12 @@
-package site.metacoding.bubble.ex05;
+package site.metacoding.bubble.practice;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 플레이어는 좌우 이동이 가능하다. 점프가 가능하다. 방울 발사
+ * @author 정성현
+ * 
  *
  */
 public class Player extends JLabel {
@@ -67,8 +68,8 @@ public class Player extends JLabel {
 	}
 
 	private void initSetting() {
-		x = 190;
-		y = 415;
+		x = 700;
+		y = 175;
 		setIcon(playerR);
 		setSize(50, 50); // 위치도 필요함
 		setLocation(x, y); // paintComponent 호출

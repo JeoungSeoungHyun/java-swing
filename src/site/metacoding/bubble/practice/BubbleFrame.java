@@ -1,4 +1,4 @@
-package site.metacoding.bubble.ex05;
+package site.metacoding.bubble.practice;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 점프 추가
+ * @author 정성현 목적 : 중력 구현
  * 
  */
 
