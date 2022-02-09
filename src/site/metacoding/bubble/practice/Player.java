@@ -5,8 +5,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현
- * 
+ * @author 정성현 목적 :
  *
  */
 public class Player extends JLabel {
@@ -23,6 +22,7 @@ public class Player extends JLabel {
 	private boolean isDown;
 
 	private static final int JUMPSPEED = 2;
+	private static final int SPEED = 2;
 
 	public boolean isRight() {
 		return isRight;
@@ -68,8 +68,8 @@ public class Player extends JLabel {
 	}
 
 	private void initSetting() {
-		x = 700;
-		y = 175;
+		x = 190;
+		y = 535;
 		setIcon(playerR);
 		setSize(50, 50); // 위치도 필요함
 		setLocation(x, y); // paintComponent 호출
@@ -86,7 +86,7 @@ public class Player extends JLabel {
 			isLeft = true;
 			while (isLeft) {
 				if (x >= 80) {
-					x = x - 10;
+					x = x - SPEED;
 					setIcon(playerL);
 					setLocation(x, y);
 					try {
@@ -106,7 +106,7 @@ public class Player extends JLabel {
 			isRight = true;
 			while (isRight) {
 				if (x <= 870) {
-					x = x + 10;
+					x = x + SPEED;
 					setIcon(playerR);
 					setLocation(x, y);
 					try {
@@ -123,7 +123,7 @@ public class Player extends JLabel {
 
 	public void up() {
 		while (isUp) {
-			for (int j = 0; j < 75; j++) {
+			for (int j = 0; j < 130 / JUMPSPEED; j++) {
 				y = y - JUMPSPEED;
 				setLocation(x, y);
 				try {
@@ -137,23 +137,28 @@ public class Player extends JLabel {
 	}
 
 	public void down() {
-		while (isDown) {
-			for (int i = 0; i < 75; i++) {
-				if (y < 535) {
-					y = y + JUMPSPEED;
-					setLocation(x, y);
-//		System.out.println(y);
-				} else {
-					break;
+		if (x >= 120 && x <= 170 || x >= 770 && x <= 820) {
+			while (isDown) {
+				for (int i = 0; i < 130 / JUMPSPEED; i++) {
+					if (y < 535) {
+						y = y + JUMPSPEED;
+						setLocation(x, y);
+//			System.out.println(y);
+					} else {
+						break;
+					}
+					try {
+						Thread.sleep(3);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				try {
-					Thread.sleep(3);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				isDown = false;
 			}
-			isDown = false;
+		} else {
+
 		}
+
 	}
 
 	public void jump() {

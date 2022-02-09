@@ -22,6 +22,7 @@ public class Player extends JLabel {
 	private boolean isDown;
 
 	private static final int JUMPSPEED = 2;
+	private static final int SPEED = 4;
 
 	public boolean isRight() {
 		return isRight;
@@ -68,7 +69,7 @@ public class Player extends JLabel {
 
 	private void initSetting() {
 		x = 190;
-		y = 415;
+		y = 535;
 		setIcon(playerR);
 		setSize(50, 50); // 위치도 필요함
 		setLocation(x, y); // paintComponent 호출
@@ -85,7 +86,7 @@ public class Player extends JLabel {
 			isLeft = true;
 			while (isLeft) {
 				if (x >= 80) {
-					x = x - 10;
+					x = x - SPEED;
 					setIcon(playerL);
 					setLocation(x, y);
 					try {
@@ -105,7 +106,7 @@ public class Player extends JLabel {
 			isRight = true;
 			while (isRight) {
 				if (x <= 870) {
-					x = x + 10;
+					x = x + SPEED;
 					setIcon(playerR);
 					setLocation(x, y);
 					try {
@@ -137,7 +138,7 @@ public class Player extends JLabel {
 
 	public void down() {
 		while (isDown) {
-			for (int i = 0; i < 75; i++) {
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
 				if (y < 535) {
 					y = y + JUMPSPEED;
 					setLocation(x, y);
@@ -158,13 +159,36 @@ public class Player extends JLabel {
 	public void jump() {
 
 		new Thread(() -> {
+			System.out.println("점프");
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 			isJump = true;
-			isUp = true;
-			up();
-			isDown = true;
-			down();
-			isJump = false;
+			// up
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				y = y - JUMPSPEED;
+				setLocation(x, y);
+				try {
 
+					Thread.sleep(5);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// down
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				y = y + JUMPSPEED;
+				setLocation(x, y);
+				try {
+
+					Thread.sleep(3);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			isJump = false;
 		}).start();
 
 //		System.out.println("점프실행");

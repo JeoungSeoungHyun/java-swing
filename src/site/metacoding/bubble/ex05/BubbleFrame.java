@@ -17,10 +17,10 @@ public class BubbleFrame extends JFrame {
 
 	private JLabel backgroundMap;
 	private Player player;
+	int count = 0;
 
 	public BubbleFrame() {
 		initObject();
-		Gravity();
 		initSetting();
 		initListener();
 		setVisible(true); // 내부에 paintComponent() 호출 코드가 있다. 타겟을 정하지 않으면 프레임을 다시 그린다.
@@ -78,39 +78,17 @@ public class BubbleFrame extends JFrame {
 					if (!player.isLeft()) {
 						player.left();
 					}
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) { // 1. 이 조건을 막으면 이벤트 루프 등록을 안하는 것!! => 어차피 등록된 조건의 검사도 2초
+																// 후에 되기 때문에 이렇게 막을수는 없다.
 					if (!player.isJump()) {
-						player.jump();
+						System.out.println("카운트 : " + count);
+						count++;
+						player.jump(); // 2. 메서드 내부에서 if 분기 처리는 이벤트 루프에 등록은 되는데 실행이 안되게 하는 것!!
 					}
 				}
 			}
 
 		});
-	}
-
-	public void Gravity() {
-		new Thread(() -> {
-			while (true) {
-				try {
-					if (player.getX() >= 120 && player.getX() <= 170 || player.getX() >= 770 && player.getX() <= 820) {
-						if (player.getY() <= 535) {
-							if (!player.isJump()) {
-//								System.out.println(isDown);
-								while (player.getY() != 535) {
-									player.setDown(true);
-									player.down();
-								}
-							}
-						}
-					}
-//					System.out.println("중력스레드 실행중");
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-			}
-		}).start();
 	}
 
 	public static void main(String[] args) {

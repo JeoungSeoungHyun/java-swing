@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 중력 구현
+ * @author 정성현 목적 : 다른 층에 올라가기
  * 
  */
 
@@ -78,7 +78,7 @@ public class BubbleFrame extends JFrame {
 					if (!player.isLeft()) {
 						player.left();
 					}
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 					if (!player.isJump()) {
 						player.jump();
 					}
@@ -101,6 +101,12 @@ public class BubbleFrame extends JFrame {
 									player.down();
 								}
 							}
+						}
+					} else {
+						if (player.getY() <= 415) {
+//							System.out.println(player.y);
+							player.setDown(false);
+							player.y = player.y;
 						}
 					}
 //					System.out.println("중력스레드 실행중");
