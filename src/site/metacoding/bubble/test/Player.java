@@ -5,18 +5,42 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 / 목적: 좌우 이동 / 필요: 1.캐릭터 이동 위한 상태 speed 2. right /left 메서드 3. 왼쪽
- *         보는 이미지 아이콘
+ * @author 정성현 / 목적: 좌우 이동 /필요 : 새로운 스레드
  *
  */
 public class Player extends JLabel {
-	// 플레이어 생성자를 통해 생성
+	// 플레이어 좌표
 	private int x;
 	private int y;
+
+	// 플레이어 이미지아이콘
 	private ImageIcon playerR;
 	private ImageIcon playerL;
+
+	// 플레이어 이동속력
 	private static final int SPEED = 5;
 
+	// 메서드의 동작상태
+	private boolean isRight;
+	private boolean isLeft;
+
+	public boolean isRight() {
+		return isRight;
+	}
+
+	public void setRight(boolean isRight) {
+		this.isRight = isRight;
+	}
+
+	public boolean isLeft() {
+		return isLeft;
+	}
+
+	public void setLeft(boolean isLeft) {
+		this.isLeft = isLeft;
+	}
+
+	// 플레이어 생성자를 통해 생성
 	public Player() {
 		initObject();
 		initSetting();
@@ -37,18 +61,42 @@ public class Player extends JLabel {
 		setIcon(playerR);
 		setSize(50, 50);
 		setLocation(x, y);
+
+		isRight = false;
+		isLeft = false;
 	}
 
 	public void right() {
-		x = x + SPEED;
-		setIcon(playerR);
-		setLocation(x, y);
+		new Thread(() -> {
+
+			isRight = true;
+			while (isRight) {
+				x = x + SPEED;
+				setIcon(playerR);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				setLocation(x, y);
+			}
+		}).start();
 	}
 
 	public void left() {
-		x = x - SPEED;
-		setIcon(playerL);
-		setLocation(x, y);
-	}
+		new Thread(() -> {
+			isLeft = true;
 
+			while (isLeft) {
+				x = x - SPEED;
+				setIcon(playerL);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				setLocation(x, y);
+			}
+		}).start();
+	}
 }

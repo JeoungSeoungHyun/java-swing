@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 플레이어 좌우 이동 / 필요 : 키보드 액션 인식 위한 리스너
+ * @author 정성현 목적 : 플레이어 좌우 이동 개선 //문제 :키를 누르는 동안 메서드가 계속 호출된다. ->키를 누르는 동안 메서드는
+ *         한번 호출되고 손을 떼면 메서드가 중단된다. // 필요:메서드가 실행중인 것을 알 수 있는 상태
  *
  */
 public class BubbleFrame extends JFrame {
@@ -17,7 +18,7 @@ public class BubbleFrame extends JFrame {
 	private JLabel backgroundMap;
 	private Player player;
 
-	// 1. 생성자를 통해 프레임을 생성한다.
+	// 생성자를 통해 프레임을 생성한다.
 	public BubbleFrame() {
 		initSetting();
 		initObject();
@@ -72,16 +73,24 @@ public class BubbleFrame extends JFrame {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					player.setLeft(false);
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					player.setRight(false);
+				}
 
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					player.left();
+					if (!player.isLeft()) {
+						player.left();
+					}
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					player.right();
+					if (!player.isRight()) {
+						player.right();
+					}
 				}
 			}
 		});
