@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 색깔 테스트 / 필요 : 1.색깔맵 2.맵 서비스
+ * @author 정성현 목적 : 색깔 테스트 개선(방향별 색을 확인할 변수를 따로 정해주어야 한다.) / 필요 : 방향별 확인 할 color
+ *         변수들
  *
  */
 public class BubbleFrame extends JFrame {
