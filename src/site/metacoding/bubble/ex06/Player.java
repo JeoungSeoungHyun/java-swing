@@ -1,17 +1,34 @@
-package site.metacoding.bubble.practice;
+package site.metacoding.bubble.ex06;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 :
+ * @author 정성현 플레이어는 좌우 이동이 가능하다. 점프가 가능하다. 방울 발사
  *
  */
 public class Player extends JLabel {
 
-	public int x;
-	public int y;
+	private int x;
+	private int y;
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	private ImageIcon playerR;
 	private ImageIcon playerL;
 
@@ -22,7 +39,7 @@ public class Player extends JLabel {
 	private boolean isDown;
 
 	private static final int JUMPSPEED = 2;
-	private static final int SPEED = 2;
+	private static final int SPEED = 4;
 
 	public boolean isRight() {
 		return isRight;
@@ -68,7 +85,7 @@ public class Player extends JLabel {
 	}
 
 	private void initSetting() {
-		x = 190;
+		x = 70;
 		y = 535;
 		setIcon(playerR);
 		setSize(50, 50); // 위치도 필요함
@@ -85,17 +102,18 @@ public class Player extends JLabel {
 		new Thread(() -> {
 			isLeft = true;
 			while (isLeft) {
-				x = x - SPEED;
-				setIcon(playerL);
-				setLocation(x, y);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if (x >= 80) {
+					x = x - SPEED;
+					setIcon(playerL);
+					setLocation(x, y);
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-			}
 //			System.out.println(x);
-
+			}
 		}).start();
 	}
 
@@ -104,16 +122,16 @@ public class Player extends JLabel {
 		new Thread(() -> {
 			isRight = true;
 			while (isRight) {
-
-				x = x + SPEED;
-				setIcon(playerR);
-				setLocation(x, y);
-				try {
-					Thread.sleep(10);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (x <= 870) {
+					x = x + SPEED;
+					setIcon(playerR);
+					setLocation(x, y);
+					try {
+						Thread.sleep(10);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-
 			}
 		}).start();
 
@@ -122,7 +140,7 @@ public class Player extends JLabel {
 
 	public void up() {
 		while (isUp) {
-			for (int j = 0; j < 130 / JUMPSPEED; j++) {
+			for (int j = 0; j < 75; j++) {
 				y = y - JUMPSPEED;
 				setLocation(x, y);
 				try {
@@ -136,40 +154,58 @@ public class Player extends JLabel {
 	}
 
 	public void down() {
-		if (x >= 120 && x <= 170 || x >= 770 && x <= 820) {
-			while (isDown) {
-				for (int i = 0; i < 130 / JUMPSPEED; i++) {
-					if (y < 535) {
-						y = y + JUMPSPEED;
-						setLocation(x, y);
-//			System.out.println(y);
-					} else {
-						break;
-					}
-					try {
-						Thread.sleep(3);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+		while (isDown) {
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				if (y < 535) {
+					y = y + JUMPSPEED;
+					setLocation(x, y);
+//		System.out.println(y);
+				} else {
+					break;
 				}
-				isDown = false;
+				try {
+					Thread.sleep(3);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		} else {
-
+			isDown = false;
 		}
-
 	}
 
 	public void jump() {
 
 		new Thread(() -> {
+			System.out.println("점프");
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 			isJump = true;
-			isUp = true;
-			up();
-			isDown = true;
-			down();
-			isJump = false;
+			// up
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				y = y - JUMPSPEED;
+				setLocation(x, y);
+				try {
 
+					Thread.sleep(5);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// down
+			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+				y = y + JUMPSPEED;
+				setLocation(x, y);
+				try {
+
+					Thread.sleep(3);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			isJump = false;
 		}).start();
 
 //		System.out.println("점프실행");

@@ -1,4 +1,4 @@
-package site.metacoding.bubble.practice;
+package site.metacoding.bubble.ex06;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 중력 구현 -> 충돌과 down메서드 이용 / 필요 1.벽색 확인 상태 변수 2. 충돌 메서드
+ * @author 정성현 목적 : 색상 테스트
  * 
  */
 
@@ -17,28 +17,30 @@ public class BubbleFrame extends JFrame {
 
 	private JLabel backgroundMap;
 	private Player player;
+	int count = 0;
 
 	public BubbleFrame() {
 		initObject();
 		initSetting();
-		initMapService();
 		initListener();
+		initServiece();
 		setVisible(true); // 내부에 paintComponent() 호출 코드가 있다. 타겟을 정하지 않으면 프레임을 다시 그린다.
 	}
 
-	private void initMapService() {
+	private void initServiece() {
 		new Thread(new BackgroundMapService(player)).start();
 	}
 
 	// new 하는 것
 	private void initObject() {
-		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
+		backgroundMap = new JLabel(new ImageIcon("image/test.png"));
 //		add(backgroundMap); // 그냥 add하면 위치를 잡아주어야 한다.
 		setContentPane(backgroundMap); // 배경화면 설정 - 패널자체에 붙이는것
 
 		player = new Player();
 		add(player); // x는 변했지만 다시 그려지지 않아(setLocation) 반영이 되지 않는다.
-		System.out.println(player.x);
+		System.out.println(player.getX());
+
 	}
 
 	private void initSetting() {
@@ -82,18 +84,17 @@ public class BubbleFrame extends JFrame {
 					if (!player.isLeft()) {
 						player.left();
 					}
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) { // 1. 이 조건을 막으면 이벤트 루프 등록을 안하는 것!! => 어차피 등록된 조건의 검사도 2초
+																// 후에 되기 때문에 이렇게 막을수는 없다.
 					if (!player.isJump()) {
-						player.jump();
+						System.out.println("카운트 : " + count);
+						count++;
+						player.jump(); // 2. 메서드 내부에서 if 분기 처리는 이벤트 루프에 등록은 되는데 실행이 안되게 하는 것!!
 					}
 				}
 			}
 
 		});
-	}
-
-	public void Crash() {
-
 	}
 
 	public static void main(String[] args) {

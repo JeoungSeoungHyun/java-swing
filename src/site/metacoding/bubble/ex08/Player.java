@@ -1,28 +1,46 @@
-package site.metacoding.bubble.practice;
+package site.metacoding.bubble.ex08;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 :
+ * @author 정성현 플레이어는 좌우 이동이 가능하다. 점프가 가능하다. 방울 발사
  *
  */
 public class Player extends JLabel {
 
-	public int x;
-	public int y;
+	private int x;
+	private int y;
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	private ImageIcon playerR;
 	private ImageIcon playerL;
 
 	private boolean isRight;
 	private boolean isLeft;
-	private boolean isJump;
 	private boolean isUp;
 	private boolean isDown;
+	private boolean leftWallCrash;
+	private boolean rightWallCrash;
 
 	private static final int JUMPSPEED = 2;
-	private static final int SPEED = 2;
+	private static final int SPEED = 4;
 
 	public boolean isRight() {
 		return isRight;
@@ -40,20 +58,36 @@ public class Player extends JLabel {
 		this.isLeft = isLeft;
 	}
 
-	public boolean isJump() {
-		return isJump;
-	}
-
-	public void setJump(boolean isJump) {
-		this.isJump = isJump;
-	}
-
 	public boolean isDown() {
 		return isDown;
 	}
 
 	public void setDown(boolean isDown) {
 		this.isDown = isDown;
+	}
+
+	public boolean isLeftWallCrash() {
+		return leftWallCrash;
+	}
+
+	public void setLeftWallCrash(boolean leftWallCrash) {
+		this.leftWallCrash = leftWallCrash;
+	}
+
+	public boolean isRightWallCrash() {
+		return rightWallCrash;
+	}
+
+	public void setRightWallCrash(boolean rightWallCrash) {
+		this.rightWallCrash = rightWallCrash;
+	}
+
+	public boolean isUp() {
+		return isUp;
+	}
+
+	public void setUp(boolean isUp) {
+		this.isUp = isUp;
 	}
 
 	public Player() {
@@ -68,7 +102,7 @@ public class Player extends JLabel {
 	}
 
 	private void initSetting() {
-		x = 190;
+		x = 90;
 		y = 535;
 		setIcon(playerR);
 		setSize(50, 50); // 위치도 필요함
@@ -76,12 +110,15 @@ public class Player extends JLabel {
 
 		isRight = false; //
 		isLeft = false;
-		isJump = false;
 		isUp = false;
 		isDown = false;
+
+		leftWallCrash = false;
+		rightWallCrash = false;
 	}
 
 	public void left() {
+
 		new Thread(() -> {
 			isLeft = true;
 			while (isLeft) {
@@ -90,12 +127,10 @@ public class Player extends JLabel {
 				setLocation(x, y);
 				try {
 					Thread.sleep(10);
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-//			System.out.println(x);
-
 		}).start();
 	}
 
@@ -104,7 +139,6 @@ public class Player extends JLabel {
 		new Thread(() -> {
 			isRight = true;
 			while (isRight) {
-
 				x = x + SPEED;
 				setIcon(playerR);
 				setLocation(x, y);
@@ -113,66 +147,44 @@ public class Player extends JLabel {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 		}).start();
-
-//			System.out.println(x);
 	}
 
 	public void up() {
-		while (isUp) {
+		new Thread(() -> {
+			isUp = true;
 			for (int j = 0; j < 130 / JUMPSPEED; j++) {
 				y = y - JUMPSPEED;
 				setLocation(x, y);
 				try {
 					Thread.sleep(5);
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			isUp = false;
-		}
+			down();
+		}).start();
 	}
 
 	public void down() {
-		if (x >= 120 && x <= 170 || x >= 770 && x <= 820) {
-			while (isDown) {
-				for (int i = 0; i < 130 / JUMPSPEED; i++) {
-					if (y < 535) {
-						y = y + JUMPSPEED;
-						setLocation(x, y);
-//			System.out.println(y);
-					} else {
-						break;
-					}
-					try {
-						Thread.sleep(3);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				isDown = false;
-			}
-		} else {
-
-		}
-
-	}
-
-	public void jump() {
-
 		new Thread(() -> {
-			isJump = true;
-			isUp = true;
-			up();
+
 			isDown = true;
-			down();
-			isJump = false;
-
+			while (isDown) {
+				y = y + JUMPSPEED;
+				setLocation(x, y);
+//		System.out.println(y);
+				try {
+					Thread.sleep(3);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}).start();
+//		isDown = false; // 다운에 대한 제어는 충돌시 다른곳에서 해야한다.
 
-//		System.out.println("점프실행");
 	}
 
 }
