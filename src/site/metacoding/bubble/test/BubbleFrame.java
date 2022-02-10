@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 점프
+ * @author 정성현 목적 : 색깔 테스트 / 필요 : 1.색깔맵 2.맵 서비스
  *
  */
 public class BubbleFrame extends JFrame {
@@ -22,14 +22,22 @@ public class BubbleFrame extends JFrame {
 		initSetting();
 		initObject();
 		addObject();
+		initService();
 		initListener();
 		setVisible(true);
+	}
+
+	// 5. 서비스를 위한 메서드 생성
+	private void initService() {
+		// 6. 서비스는 계속 돌아가야 하기 때문에 새로운 스레드를 만들어 준다.
+		// 7. 새로운 스레드의 타겟을 잡아주기 위해서 BackgroundMapService클래스를 Runnable로 implements해준다.
+		new Thread(new BackgroundMapService(player)).start();
 	}
 
 	// 오브젝트 생성 메서드
 	private void initObject() {
 		// 배경화면을 위한 레이블 생성 후 배경화면에 추가
-		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
+		backgroundMap = new JLabel(new ImageIcon("image/backgroundMapService.png"));
 
 		// 플레이어 생성
 		player = new Player();

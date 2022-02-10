@@ -23,11 +23,11 @@ public class BubbleFrame extends JFrame {
 		initObject();
 		initSetting();
 		initListener();
-		initServiece();
+		initService();
 		setVisible(true); // 내부에 paintComponent() 호출 코드가 있다. 타겟을 정하지 않으면 프레임을 다시 그린다.
 	}
 
-	private void initServiece() {
+	private void initService() {
 		new Thread(new BackgroundMapService(player)).start();
 	}
 
