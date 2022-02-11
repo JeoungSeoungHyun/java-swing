@@ -46,7 +46,7 @@ public class BackgroundMapService implements Runnable {
 					player.setLeftWallCrash(true);
 					player.setLeft(false);
 				} else if (rightColor.getRed() == 255 && rightColor.getBlue() == 0 && rightColor.getGreen() == 0) {
-//					System.out.println("오른쪽 벽에 충돌함");
+					System.out.println("오른쪽 벽에 충돌함");
 					player.setRightWallCrash(true);
 					player.setRight(false);
 				} else {

@@ -30,10 +30,10 @@ public class BackgroundMapService implements Runnable {
 		while (true) {
 			try {
 				Color color = new Color(image.getRGB(player.getX() + 50, player.getY()));
-				System.out.println("Red     : " + color.getRed());
-				System.out.println("Blue    : " + color.getBlue());
-				System.out.println("Green : " + color.getGreen());
-				System.out.println("==================");
+//				System.out.println("Red     : " + color.getRed());
+//				System.out.println("Blue    : " + color.getBlue());
+//				System.out.println("Green : " + color.getGreen());
+//				System.out.println("==================");
 				Thread.sleep(10); // 충돌 감지를 미세하게 하는 조절법
 			} catch (Exception e) {
 				e.printStackTrace();

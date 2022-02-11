@@ -26,7 +26,42 @@ public class Player extends JLabel {
 	// 메서드의 동작상태
 	private boolean isRight;
 	private boolean isLeft;
-	private boolean isJump;
+	private boolean isUp;
+	private boolean isDown;
+
+	// 충돌 감지 확인 변수
+	private boolean leftWallCrash;
+	private boolean rightWallCrash;
+
+	// context를 알기 위한 변수
+	private BubbleFrame context;
+
+	// 캐릭터의 방향을 알기 위한 변수
+	private int direction; // 0-왼 / 1-오른
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	public boolean isLeftWallCrash() {
+		return leftWallCrash;
+	}
+
+	public void setLeftWallCrash(boolean leftWallCrash) {
+		this.leftWallCrash = leftWallCrash;
+	}
+
+	public boolean isRightWallCrash() {
+		return rightWallCrash;
+	}
+
+	public void setRightWallCrash(boolean rightWallCrash) {
+		this.rightWallCrash = rightWallCrash;
+	}
 
 	public boolean isRight() {
 		return isRight;
@@ -44,16 +79,26 @@ public class Player extends JLabel {
 		this.isLeft = isLeft;
 	}
 
-	public boolean isJump() {
-		return isJump;
+	public boolean isUp() {
+		return isUp;
 	}
 
-	public void setJump(boolean isJump) {
-		this.isJump = isJump;
+	public void setUp(boolean isUp) {
+		this.isUp = isUp;
+	}
+
+	public boolean isDown() {
+		return isDown;
+	}
+
+	public void setDown(boolean isDown) {
+		this.isDown = isDown;
 	}
 
 	// 플레이어 생성자를 통해 생성
-	public Player() {
+	public Player(BubbleFrame context) {
+		this.context = context;
+
 		initObject();
 		initSetting();
 	}
@@ -76,7 +121,11 @@ public class Player extends JLabel {
 
 		isRight = false;
 		isLeft = false;
-		isJump = false;
+		isUp = false;
+		isDown = false;
+		leftWallCrash = false;
+		rightWallCrash = false;
+		direction = -1;
 	}
 
 	// 플레이어 오른쪽 이동 메서드
@@ -85,16 +134,15 @@ public class Player extends JLabel {
 
 			isRight = true;
 			while (isRight) {
-				if (x <= 870) {
-					x = x + SPEED;
-					setIcon(playerR);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					setLocation(x, y);
+				x = x + SPEED;
+				setIcon(playerR);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
+				setLocation(x, y);
+
 			}
 		}).start();
 	}
@@ -105,24 +153,23 @@ public class Player extends JLabel {
 			isLeft = true;
 
 			while (isLeft) {
-				if (x >= 80) {
-					x = x - SPEED;
-					setIcon(playerL);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					setLocation(x, y);
+				x = x - SPEED;
+				setIcon(playerL);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
+				setLocation(x, y);
 			}
+
 		}).start();
 	}
 
-	// 플레이어 점프 메서드
-	public void jump() {
+	// 플레이어 점프 메서드 리팩토링
+	public void up() {
 		new Thread(() -> {
-			isJump = true;
+			isUp = true;
 
 			for (int i = 0; i < 130 / JUMPSPEED; i++) {
 				y = y - JUMPSPEED;
@@ -133,8 +180,16 @@ public class Player extends JLabel {
 					e.printStackTrace();
 				}
 			}
+			isUp = false;
+			down();
+		}).start();
+	}
 
-			for (int i = 0; i < 130 / JUMPSPEED; i++) {
+	// 플레이어 다운 메서드 리팩토링
+	public void down() {
+		new Thread(() -> {
+			isDown = true;
+			while (isDown) {
 				y = y + JUMPSPEED;
 				setLocation(x, y);
 				try {
@@ -143,7 +198,12 @@ public class Player extends JLabel {
 					e.printStackTrace();
 				}
 			}
-			isJump = false;
 		}).start();
+	}
+
+	// 플레이어 방울 생성 메서드
+	public void attack() {
+		Bubble bubble = new Bubble(context);
+		context.add(bubble);
 	}
 }

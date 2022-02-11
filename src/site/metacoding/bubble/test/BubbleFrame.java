@@ -9,14 +9,14 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 정성현 목적 : 색깔 테스트 개선(방향별 색을 확인할 변수를 따로 정해주어야 한다.) / 필요 : 방향별 확인 할 color
- *         변수들
+ * @author 정성현 목적 : 방울 생성
  *
  */
 public class BubbleFrame extends JFrame {
 
 	private JLabel backgroundMap;
 	private Player player;
+	private BubbleFrame context = this;
 
 	// 생성자를 통해 프레임을 생성한다.
 	public BubbleFrame() {
@@ -38,10 +38,10 @@ public class BubbleFrame extends JFrame {
 	// 오브젝트 생성 메서드
 	private void initObject() {
 		// 배경화면을 위한 레이블 생성 후 배경화면에 추가
-		backgroundMap = new JLabel(new ImageIcon("image/backgroundMapService.png"));
+		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
 
 		// 플레이어 생성
-		player = new Player();
+		player = new Player(context);
 
 	}
 
@@ -58,6 +58,14 @@ public class BubbleFrame extends JFrame {
 
 		// 프레임 종료시 JVM도 같이 종료하도록 세팅
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	private void addObject() {
@@ -92,17 +100,19 @@ public class BubbleFrame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					if (!player.isLeft()) {
+					if (!player.isLeft() && !player.isLeftWallCrash()) {
 						player.left();
 					}
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					if (!player.isRight()) {
+					if (!player.isRight() && !player.isRightWallCrash()) {
 						player.right();
 					}
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					if (!player.isJump()) {
-						player.jump();
+					if (!player.isUp()) {
+						player.up();
 					}
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					player.attack();
 				}
 			}
 		});
